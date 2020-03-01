@@ -1,0 +1,65 @@
+.sortableCol{
+    cursor: pointer;
+}
+
+span.link {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+span.link.disabled {
+    color: #CCC;
+    cursor: not-allowed;
+}
+.notificationWrapper{
+    position: absolute;
+    left:0;
+    bottom:0;
+}
+.notificationWrapper > .notification {
+   display: block;
+   min-width: 350px;
+
+}
+
+#loading-screen {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 0;
+    width: 0;
+    visibility: hidden;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 9999;
+}
+
+#loading-screen.on {
+    visibility: visible;
+    height: 100%;
+    width: 100%;
+}
+
+.flash.loading:after {
+    background: none;
+    content: " ";
+    display: block;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 8px solid #666;
+    border-color: #666 transparent #666 transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+.flash.loading{
+    color:#666;
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

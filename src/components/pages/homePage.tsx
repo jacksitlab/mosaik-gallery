@@ -35,7 +35,7 @@ class HomePage extends React.Component {
             "\n" +
             "The objective of the project is to create a program with which it is possible to put images into separate mosaiks and organize them on a virtual wall" +
             " and create a printable cut of this. \n";
-        const className = ""
+        const className = "m-2"
         const style: React.CSSProperties = {};
 
 

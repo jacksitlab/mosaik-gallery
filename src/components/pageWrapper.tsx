@@ -4,13 +4,18 @@ import LoadingOverlay from './loadingOverlay';
 import NotificationLayer from './notificationLayer';
 
 interface PageWrapperState {
-
+    isEditor: boolean;
 }
 class PageWrapper extends React.Component<any, PageWrapperState> {
 
     constructor(props: any) {
         super(props);
-        this.state = {}
+        this.state = { isEditor: true }
+    }
+    private getEditorBar(): JSX.Element {
+        return <ul className="navbar-nav mr-auto">
+            <li><button type="button" title="add">Add</button></li>
+        </ul>
     }
     render() {
         return (
@@ -26,10 +31,11 @@ class PageWrapper extends React.Component<any, PageWrapperState> {
                                 <NavLink className="nav-link" to="/about">About</NavLink>
                             </li>
                         </ul>
+                        {this.state.isEditor ? this.getEditorBar() : ""}
                         <div className="form-inline" >
                             <ul className="navbar-nav mr-auto">
                                 <li className="nav-item">
-                                    <a className="nav-link github-fork-ribbon" data-ribbon="Fork me on GitHub" target="_blank" href="https://github.com/jacksitlab/yang-statistics">SourceCode</a>
+                                    <a className="nav-link github-fork-ribbon" data-ribbon="Fork me on GitHub" target="_blank" href="https://github.com/jacksitlab/mosaik-gallery">SourceCode</a>
                                 </li>
                             </ul>
                         </div>

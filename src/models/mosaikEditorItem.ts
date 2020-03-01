@@ -8,11 +8,11 @@ class MosaikEditorItem {
     private readonly edgeLength: number;
     private location: { x: number, y: number };
     private type: MosaikType;
-    public constructor(id: number, edge: number) {
+    public constructor(id: number, edge: number, loc?: { x: number, y: number }) {
         this._id = id;
         this.edgeLength = edge;
         this.type = MosaikType.SIX;
-        this.location = { x: 200, y: 0 }
+        this.location = { x: loc ? loc.x : 0, y: loc ? loc.y : 0 }
     }
     private getTransformation(): SVGAnimatedTransformList {
         return new SVGAnimatedTransformList();

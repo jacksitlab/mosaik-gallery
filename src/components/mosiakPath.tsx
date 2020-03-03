@@ -20,6 +20,7 @@ class MosaikPath extends React.Component<MosaikPathProps> {
 
     private onContextMenuClicked(e: React.MouseEvent<SVGPathElement, MouseEvent>): void {
         e.preventDefault();
+        e.stopPropagation();
         this.props.onContextMenu(this.props.id);
 
     }
@@ -29,13 +30,13 @@ class MosaikPath extends React.Component<MosaikPathProps> {
             fill="none" stroke="#000" strokeWidth="1" />;
 
     }
-    renderHoneycomb() {
+    private renderHoneycomb() {
         const coslen = 0.86602540378 * this.props.edgeLength; //cos(30)*edgeLength;
         const sinlen = 0.5 * this.props.edgeLength; //sin(30)*edgeLength;
         const w = this.props.edgeLength / 2;
         return <path key={`k_${this.props.id}`} onContextMenu={(e) => { this.onContextMenuClicked(e) }} transform={`translate(${w + this.props.location.x} ${coslen + this.props.location.y} ) `}
             d={`M-${w},-${coslen} l${this.props.edgeLength},0 ${sinlen},${coslen} -${sinlen},${coslen} -${this.props.edgeLength},0 -${sinlen},-${coslen}Z`}
-            fill="none" stroke="#000" strokeWidth="1" />;
+            fill="#FFF" stroke="#000" strokeWidth="1" />;
     }
     render() {
         return this.props.type == MosaikType.QUAD ? this.renderRect() : this.renderHoneycomb();

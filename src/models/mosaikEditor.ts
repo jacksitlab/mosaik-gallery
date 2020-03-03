@@ -11,7 +11,7 @@ class MosaikEditor {
         this.items = [];
         this.edgeLength = 40;
         this.margin = 10;
-        const calc = new HoneycombCalculator(this.edgeLength, this.margin, 50, 0);
+        const calc = new HoneycombCalculator(this.edgeLength, this.margin, 50, 10);
         this.items.push(new MosaikEditorItem(1, this.edgeLength, calc.getCenter(1, 0)));
         this.items.push(new MosaikEditorItem(1, this.edgeLength, calc.getCenter(2, 0)));
         this.items.push(new MosaikEditorItem(1, this.edgeLength, calc.getCenter(3, 0)));

@@ -63,3 +63,9 @@ span.link.disabled {
         transform: rotate(360deg);
     }
 }
+
+.context-menu{
+    position: absolute;
+    top:4rem;
+    left:5rem;
+}

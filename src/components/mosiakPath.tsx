@@ -6,7 +6,7 @@ export interface IPosition {
     y: number;
 }
 export interface MosaikPathProps {
-    onContextMenu(id: string): void;
+    onContextMenu(id: string, pos: IPosition): void;
     id: string;
     location: IPosition;
     edgeLength: number;
@@ -21,7 +21,7 @@ class MosaikPath extends React.Component<MosaikPathProps> {
     private onContextMenuClicked(e: React.MouseEvent<SVGPathElement, MouseEvent>): void {
         e.preventDefault();
         e.stopPropagation();
-        this.props.onContextMenu(this.props.id);
+        this.props.onContextMenu(this.props.id, { x: e.pageX, y: e.pageY });
 
     }
     private renderRect() {
@@ -34,9 +34,9 @@ class MosaikPath extends React.Component<MosaikPathProps> {
         const coslen = 0.86602540378 * this.props.edgeLength; //cos(30)*edgeLength;
         const sinlen = 0.5 * this.props.edgeLength; //sin(30)*edgeLength;
         const w = this.props.edgeLength / 2;
-        return <path key={`k_${this.props.id}`} onContextMenu={(e) => { this.onContextMenuClicked(e) }} transform={`translate(${w + this.props.location.x} ${coslen + this.props.location.y} ) `}
+        return <path key={`k_${this.props.id}`} className={"honeycomb"} onContextMenu={(e) => { this.onContextMenuClicked(e) }} transform={`translate(${w + this.props.location.x} ${coslen + this.props.location.y} ) `}
             d={`M-${w},-${coslen} l${this.props.edgeLength},0 ${sinlen},${coslen} -${sinlen},${coslen} -${this.props.edgeLength},0 -${sinlen},-${coslen}Z`}
-            fill="#FFF" stroke="#000" strokeWidth="1" />;
+            fill="#FFF" stroke="#000" />;
     }
     render() {
         return this.props.type == MosaikType.QUAD ? this.renderRect() : this.renderHoneycomb();

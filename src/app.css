@@ -69,3 +69,10 @@ span.link.disabled {
     top:4rem;
     left:5rem;
 }
+
+path.honeycomb{
+    stroke-width:1
+}
+path.honeycomb:hover{
+    stroke-width: 2;
+}

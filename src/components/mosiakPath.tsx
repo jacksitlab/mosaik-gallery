@@ -25,7 +25,8 @@ class MosaikPath extends React.Component<MosaikPathProps> {
 
     }
     private renderRect() {
-        return <path transform={`translate(${this.props.edgeLength / 2}, ${this.props.edgeLength / 2} ) `}
+        const w = this.props.edgeLength / 2;
+        return <path transform={`translate(${w + this.props.location.x} ${w + this.props.location.y} ) `}
             d={`M-${this.props.edgeLength / 2},-${this.props.edgeLength / 2} l${this.props.edgeLength},0 0,${this.props.edgeLength} -${this.props.edgeLength},0Z`}
             fill="none" stroke="#000" strokeWidth="1" />;
 

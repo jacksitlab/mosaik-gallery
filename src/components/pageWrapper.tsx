@@ -2,20 +2,32 @@ import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import LoadingOverlay from './loadingOverlay';
 import NotificationLayer from './notificationLayer';
+import { MosaikType } from 'models/mosaikType';
+import editor from 'models/mosaikEditor';
 
-interface PageWrapperState {
+interface PageWrapperProps {
     isEditor: boolean;
 }
-class PageWrapper extends React.Component<any, PageWrapperState> {
+class PageWrapper extends React.Component<PageWrapperProps> {
 
     constructor(props: any) {
         super(props);
-        this.state = { isEditor: true }
+    }
+    private onSelectMode(type: MosaikType) {
+        editor.setType(type);
+        this.forceUpdate();
     }
     private getEditorBar(): JSX.Element {
-        return <ul className="navbar-nav mr-auto">
-            <li><button type="button" title="add">Add</button></li>
-        </ul>
+        return <div className="dropdown navbar-nav mr-auto" >
+            <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {editor.getType().toString()}
+            </button>
+            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <span className="dropdown-item" onClick={() => { this.onSelectMode(MosaikType.QUAD); }}>Rectangle</span>
+                <span className="dropdown-item" onClick={() => { this.onSelectMode(MosaikType.SIX); }}>Honeycomb</span>
+
+            </div>
+        </div>
     }
     render() {
         return (
@@ -31,7 +43,7 @@ class PageWrapper extends React.Component<any, PageWrapperState> {
                                 <NavLink className="nav-link" to="/about">About</NavLink>
                             </li>
                         </ul>
-                        {this.state.isEditor ? this.getEditorBar() : ""}
+                        {this.props.isEditor ? this.getEditorBar() : ""}
                         <div className="form-inline" >
                             <ul className="navbar-nav mr-auto">
                                 <li className="nav-item">

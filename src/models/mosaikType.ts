@@ -1,5 +1,6 @@
 
 export enum MosaikType {
-    QUAD,
-    SIX
+    QUAD = "quads",
+    SIX = "honeycombs"
+
 }

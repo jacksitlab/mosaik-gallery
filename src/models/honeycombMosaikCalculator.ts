@@ -1,4 +1,4 @@
-class HoneycombCalculator {
+class HoneycombMosiakCalculator {
 
     private readonly edgeLength: number;
     private readonly margin: number;
@@ -38,4 +38,4 @@ class HoneycombCalculator {
         return center;
     }
 }
-export default HoneycombCalculator;
+export default HoneycombMosiakCalculator;

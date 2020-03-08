@@ -1,63 +1,120 @@
 import * as React from 'react';
 import MosaikEditorItem from "./mosaikEditorItem";
-import HoneycombCalculator from './honeycombCalculator';
+import HoneycombMosiakCalculator from './honeycombMosaikCalculator';
+import { MosaikType } from './mosaikType';
+import { MosaikCalculator, getCalculatorInstance } from './mosaikCalculator';
+import { IPosition } from 'components/mosiakPath';
+function removeA(arr: any[], a: any) {
+    var what, L = a.length, ax;
+    while (L > 1 && arr.length) {
+        what = a[--L];
+        while ((ax = arr.indexOf(what)) !== -1) {
+            arr.splice(ax, 1);
+        }
+    }
+    return arr;
+}
 
+interface itemData {
+    id: number;
+    col: number;
+    row: number;
+
+}
+export interface IEditorChangeListener {
+    onEditorStateChanged(): void
+}
 class MosaikEditor {
 
-    private readonly items: MosaikEditorItem[];
+    private readonly items: itemData[];
     private edgeLength: number;
     private margin: number;
-    public getItems(): MosaikEditorItem[] {
-        return this.items;
-    }
+    private positionCalculator: MosaikCalculator | null;
+    private type: MosaikType;
+    private readonly offset: IPosition;
+    private readonly stateChangedListeners: IEditorChangeListener[];
+
+
     private static id = 324;
     public static generateId(): number {
         return MosaikEditor.id++;
     }
     public constructor() {
         this.items = [];
+        this.stateChangedListeners = [];
         this.edgeLength = 40;
         this.margin = 10;
-        const calc = new HoneycombCalculator(this.edgeLength, this.margin, 50, 10);
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(1, 0)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(2, 0)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(3, 0)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(4, 0)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(5, 0)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(0, 1)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(1, 1)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(2, 1)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(3, 1)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(4, 1)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(5, 1)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(1, 2)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(2, 2)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(3, 2)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(4, 2)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(5, 2)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(0, 3)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(1, 3)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(2, 3)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(3, 3)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(4, 3)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(5, 3)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(1, 4)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(2, 4)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(3, 4)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(4, 4)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(5, 4)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(0, 5)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(1, 5)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(2, 5)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(3, 5)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(4, 5)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(5, 5)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(1, 6)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(2, 6)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(3, 6)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(4, 6)));
-        this.items.push(new MosaikEditorItem(MosaikEditor.generateId(), this.edgeLength, calc.getCenter(5, 6)));
+        this.offset = { x: 50, y: 10 };
+        this.type = MosaikType.QUAD;
+        this.positionCalculator = getCalculatorInstance(this.type, this.edgeLength, this.margin, 50, 10);
+        this.items = [];
+        this.items.push({ id: MosaikEditor.generateId(), col: 2, row: 0 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 3, row: 0 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 4, row: 0 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 5, row: 0 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 0, row: 1 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 1, row: 1 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 2, row: 1 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 3, row: 1 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 4, row: 1 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 5, row: 1 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 1, row: 2 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 2, row: 2 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 3, row: 2 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 4, row: 2 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 5, row: 2 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 0, row: 3 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 1, row: 3 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 2, row: 3 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 3, row: 3 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 4, row: 3 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 5, row: 3 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 1, row: 4 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 2, row: 4 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 3, row: 4 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 4, row: 4 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 5, row: 4 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 0, row: 5 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 1, row: 5 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 2, row: 5 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 3, row: 5 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 4, row: 5 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 5, row: 5 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 1, row: 6 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 2, row: 6 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 3, row: 6 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 4, row: 6 });
+        this.items.push({ id: MosaikEditor.generateId(), col: 5, row: 6 });
 
+    }
+    public setType(type: MosaikType) {
+        this.type = type;
+        this.positionCalculator = getCalculatorInstance(type, this.edgeLength, this.margin, this.offset.x, this.offset.y)
+        this.pushChangeListeners();
+    }
+    private pushChangeListeners() {
+        this.stateChangedListeners.forEach((listener) => {
+            listener.onEditorStateChanged();
+        })
+    }
+    public registerStateChangedListener(listener: IEditorChangeListener) {
+        this.stateChangedListeners.push(listener);
+    }
+    public unregisterStateChangedListener(listener: IEditorChangeListener) {
+        removeA(this.stateChangedListeners, listener);
+    }
+    public getItems(): MosaikEditorItem[] {
+        const items: MosaikEditorItem[] = [];
+        this.items.forEach((item) => {
+            if (this.positionCalculator != null) {
+                items.push(new MosaikEditorItem(item.id, this.edgeLength, this.positionCalculator.getCenter(item.col, item.row), this.type));
+            }
+        })
+
+        return items;
+    }
+    public getType(): MosaikType {
+        return this.type;
     }
 }
 

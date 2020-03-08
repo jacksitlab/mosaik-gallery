@@ -18,10 +18,10 @@ class MosaikEditorItem {
     public getType(): MosaikType {
         return this.type;
     }
-    public constructor(id: number, edge: number, loc?: { x: number, y: number }) {
+    public constructor(id: number, edge: number, loc?: { x: number, y: number }, type = MosaikType.SIX) {
         this._id = id;
         this.edgeLength = edge;
-        this.type = MosaikType.SIX;
+        this.type = type;
         this.location = { x: loc ? loc.x : 0, y: loc ? loc.y : 0 }
     }
 

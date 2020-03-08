@@ -22,24 +22,24 @@ interface DetailsPageWrapperProps {
     }
 }
 const HomePageWrapper = () => {
-    return <PageWrapper>
+    return <PageWrapper isEditor={false}>
         <HomePage />
     </PageWrapper>
 }
 const AboutPageWrapper = () => {
-    return <PageWrapper>
+    return <PageWrapper isEditor={false}>
         <AboutPage />
     </PageWrapper>
 }
 
 
 const EditorPageWrapper = () => {
-    return <PageWrapper>
+    return <PageWrapper isEditor={true}>
         <EditorPage />
     </PageWrapper>
 }
 const NotFoundPageWrapper = () => {
-    return <PageWrapper>
+    return <PageWrapper isEditor={false}>
         <NotFoundPage />
     </PageWrapper>
 }

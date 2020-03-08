@@ -1,5 +1,5 @@
 import * as React from 'react';
-import editor from '../../models/mosaikEditor';
+import editor, { IEditorChangeListener } from '../../models/mosaikEditor';
 import EditorContextMenu, { MenuSelectEvent, EditorContextMenuItem } from 'components/editorContextMenu';
 import MosaikPath, { IPosition } from 'components/mosiakPath';
 
@@ -8,7 +8,7 @@ interface EditorPageState {
     contextMenuItems: EditorContextMenuItem[];
     contextMenuPosition: IPosition;
 }
-class EditorPage extends React.Component<any, EditorPageState> {
+class EditorPage extends React.Component<any, EditorPageState> implements IEditorChangeListener {
 
     private static generalContextItems: EditorContextMenuItem[] = EditorPage.initGeneralContextItems();
     private static mosaikContextItems: EditorContextMenuItem[] = EditorPage.initMosaikContextItems();
@@ -28,7 +28,13 @@ class EditorPage extends React.Component<any, EditorPageState> {
     constructor(props: any) {
         super(props);
         this.state = { visible: false, contextMenuItems: [], contextMenuPosition: { x: 0, y: 0 } }
-
+        editor.registerStateChangedListener(this);
+    }
+    public onEditorStateChanged() {
+        this.forceUpdate();
+    }
+    componentWillUnmount() {
+        editor.unregisterStateChangedListener(this);
     }
     private onContextMenuClick(id: string, pos: IPosition) {
         console.log("mosaik context click:");

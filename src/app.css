@@ -70,9 +70,9 @@ span.link.disabled {
     left:5rem;
 }
 
-path.honeycomb{
+path.mosaik{
     stroke-width:1
 }
-path.honeycomb:hover{
+path.mosaik:hover{
     stroke-width: 2;
 }

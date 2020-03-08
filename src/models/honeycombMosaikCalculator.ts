@@ -37,5 +37,12 @@ class HoneycombMosiakCalculator {
         center.y += offY;
         return center;
     }
+
+    public calcPath(): string {
+        const coslen = 0.86602540378 * this.edgeLength; //cos(30)*edgeLength;
+        const sinlen = 0.5 * this.edgeLength; //sin(30)*edgeLength;
+        const w = this.edgeLength / 2;
+        return `M-${w},-${coslen} l${this.edgeLength},0 ${sinlen},${coslen} -${sinlen},${coslen} -${this.edgeLength},0 -${sinlen},-${coslen}Z`;
+    }
 }
 export default HoneycombMosiakCalculator;

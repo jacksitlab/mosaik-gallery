@@ -24,5 +24,9 @@ class QuadMosiakCalculator {
         console.log(`${col} ${row} ${center}`)
         return center;
     }
+
+    public calcPath(): string {
+        return `M-${this.edgeLength / 2},-${this.edgeLength / 2} l${this.edgeLength},0 0,${this.edgeLength} -${this.edgeLength},0Z`;
+    }
 }
 export default QuadMosiakCalculator;

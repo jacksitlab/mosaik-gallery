@@ -60,6 +60,7 @@ class EditorPage extends React.Component<any, EditorPageState> implements IEdito
                         return <MosaikPath id={`item_${item.getId()}`} key={`item_${item.getId()}`}
                             edgeLength={item.getEdgeLength()} location={item.getLocation()} type={item.getType()}
                             onContextMenu={(e, pos) => { this.onContextMenuClick(e, pos); }}
+                            svgPath={item.getSvgPath()}
                         />;
                     })}
 

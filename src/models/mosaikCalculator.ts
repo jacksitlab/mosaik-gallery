@@ -5,7 +5,7 @@ import QuadMosiakCalculator from "./quadMosaikCalculator";
 
 export interface MosaikCalculator {
     getCenter(col: number, row: number): IPosition;
-
+    calcPath(): string;
 
 }
 export function getCalculatorInstance(type: MosaikType, edgeLenth: number, margin: number, offX: number, offY: number): MosaikCalculator | null {

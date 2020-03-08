@@ -6,8 +6,9 @@ class MosaikEditorItem {
 
     private readonly _id: number;
     private readonly edgeLength: number;
-    private location: { x: number, y: number };
-    private type: MosaikType;
+    private readonly location: { x: number, y: number };
+    private readonly type: MosaikType;
+    private readonly svgPath: string;
     public getId(): number {
         return this._id;
     }
@@ -18,11 +19,15 @@ class MosaikEditorItem {
     public getType(): MosaikType {
         return this.type;
     }
-    public constructor(id: number, edge: number, loc?: { x: number, y: number }, type = MosaikType.SIX) {
+    public constructor(id: number, edge: number, svgPath: string, loc?: { x: number, y: number }, type = MosaikType.SIX) {
         this._id = id;
         this.edgeLength = edge;
         this.type = type;
+        this.svgPath = svgPath;
         this.location = { x: loc ? loc.x : 0, y: loc ? loc.y : 0 }
+    }
+    public getSvgPath() {
+        return this.svgPath;
     }
 
 }

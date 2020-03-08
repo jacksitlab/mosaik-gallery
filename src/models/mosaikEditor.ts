@@ -29,7 +29,7 @@ class MosaikEditor {
     private readonly items: itemData[];
     private edgeLength: number;
     private margin: number;
-    private positionCalculator: MosaikCalculator | null;
+    private mosaikCalculator: MosaikCalculator | null;
     private type: MosaikType;
     private readonly offset: IPosition;
     private readonly stateChangedListeners: IEditorChangeListener[];
@@ -44,9 +44,9 @@ class MosaikEditor {
         this.stateChangedListeners = [];
         this.edgeLength = 40;
         this.margin = 10;
-        this.offset = { x: 50, y: 10 };
+        this.offset = { x: 50, y: 50 };
         this.type = MosaikType.QUAD;
-        this.positionCalculator = getCalculatorInstance(this.type, this.edgeLength, this.margin, 50, 10);
+        this.mosaikCalculator = getCalculatorInstance(this.type, this.edgeLength, this.margin, this.offset.x, this.offset.y);
         this.items = [];
         this.items.push({ id: MosaikEditor.generateId(), col: 2, row: 0 });
         this.items.push({ id: MosaikEditor.generateId(), col: 3, row: 0 });
@@ -89,7 +89,7 @@ class MosaikEditor {
     }
     public setType(type: MosaikType) {
         this.type = type;
-        this.positionCalculator = getCalculatorInstance(type, this.edgeLength, this.margin, this.offset.x, this.offset.y)
+        this.mosaikCalculator = getCalculatorInstance(type, this.edgeLength, this.margin, this.offset.x, this.offset.y)
         this.pushChangeListeners();
     }
     private pushChangeListeners() {
@@ -106,8 +106,8 @@ class MosaikEditor {
     public getItems(): MosaikEditorItem[] {
         const items: MosaikEditorItem[] = [];
         this.items.forEach((item) => {
-            if (this.positionCalculator != null) {
-                items.push(new MosaikEditorItem(item.id, this.edgeLength, this.positionCalculator.getCenter(item.col, item.row), this.type));
+            if (this.mosaikCalculator != null) {
+                items.push(new MosaikEditorItem(item.id, this.edgeLength, this.mosaikCalculator.calcPath(), this.mosaikCalculator.getCenter(item.col, item.row), this.type));
             }
         })
 

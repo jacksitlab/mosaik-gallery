@@ -3,7 +3,7 @@ import MosaikEditorItem from "./mosaikEditorItem";
 import HoneycombMosiakCalculator from './honeycombMosaikCalculator';
 import { MosaikType } from './mosaikType';
 import { MosaikCalculator, getCalculatorInstance } from './mosaikCalculator';
-import { IPosition } from 'components/mosiakPath';
+import { IPosition } from 'components/mosaikPath';
 function removeA(arr: any[], a: any) {
     var what, L = a.length, ax;
     while (L > 1 && arr.length) {
@@ -115,6 +115,14 @@ class MosaikEditor {
     }
     public getType(): MosaikType {
         return this.type;
+    }
+    public getEdgeLength(): number {
+        return this.edgeLength;
+    }
+    public setEdgeLength(len: number) {
+        this.edgeLength = len;
+        this.mosaikCalculator = getCalculatorInstance(this.type, this.edgeLength, this.margin, this.offset.x, this.offset.y)
+        this.pushChangeListeners();
     }
 }
 

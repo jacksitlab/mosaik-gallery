@@ -3,26 +3,34 @@ import { NavLink } from 'react-router-dom';
 import LoadingOverlay from './loadingOverlay';
 import NotificationLayer from './notificationLayer';
 import { MosaikType } from 'models/mosaikType';
-import editor from 'models/mosaikEditor';
+import editor, { IEditorChangeListener } from 'models/mosaikEditor';
 
 interface PageWrapperProps {
     isEditor: boolean;
 }
-class PageWrapper extends React.Component<PageWrapperProps> {
+class PageWrapper extends React.Component<PageWrapperProps> implements IEditorChangeListener {
 
     constructor(props: any) {
         super(props);
+        editor.registerStateChangedListener(this);
     }
     private onSelectMode(type: MosaikType) {
         editor.setType(type);
+    }
+    private onEdgeLengthChanged(e: React.ChangeEvent<HTMLInputElement>) {
+        editor.setEdgeLength(parseInt(e.target.value));
+    }
+    public onEditorStateChanged() {
         this.forceUpdate();
     }
     private getEditorBar(): JSX.Element {
         return <div className="dropdown navbar-nav mr-auto" >
-            <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <input type="number" className="form-control col-3 mx-2" placeholder="edge length" onChange={(e) => { this.onEdgeLengthChanged(e); }} value={editor.getEdgeLength()}></input>
+
+            <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" style={{ minWidth: '9rem' }} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {editor.getType().toString()}
             </button>
-            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" >
                 <span className="dropdown-item" onClick={() => { this.onSelectMode(MosaikType.QUAD); }}>Rectangle</span>
                 <span className="dropdown-item" onClick={() => { this.onSelectMode(MosaikType.SIX); }}>Honeycomb</span>
 

@@ -1,4 +1,4 @@
-import { IPosition } from "components/mosiakPath";
+import { IPosition } from "components/mosaikPath";
 import { MosaikType } from "./mosaikType";
 import HoneycombMosiakCalculator from "./honeycombMosaikCalculator";
 import QuadMosiakCalculator from "./quadMosaikCalculator";

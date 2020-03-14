@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IPosition } from './mosiakPath';
+import { IPosition } from './mosaikPath';
 
 export interface MenuSelectEvent {
     item: string;

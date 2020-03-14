@@ -26,9 +26,10 @@ class MosaikPath extends React.Component<MosaikPathProps> {
 
     }
     render() {
+        const enabled = true;
         return <path key={`k_${this.props.id}`} className={`mosaik ${this.props.type.toString()}`} onContextMenu={(e) => { this.onContextMenuClicked(e) }} transform={`translate(${this.props.location.x} ${this.props.location.y} ) `}
-            d={this.props.svgPath}
-            fill="#FFF" stroke="#000" />
+            d={this.props.svgPath} strokeWidth={enabled ? "1" : "0"}
+            fill="#FFF" stroke="#000" strokeDasharray={enabled ? `5 0` : `10 10`} />
     }
 }
 export default MosaikPath;

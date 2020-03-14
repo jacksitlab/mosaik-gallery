@@ -1,7 +1,7 @@
 import * as React from 'react';
 import editor, { IEditorChangeListener } from '../../models/mosaikEditor';
 import EditorContextMenu, { MenuSelectEvent, EditorContextMenuItem } from 'components/editorContextMenu';
-import MosaikPath, { IPosition } from 'components/mosiakPath';
+import MosaikPath, { IPosition } from 'components/mosaikPath';
 
 interface EditorPageState {
     visible: boolean;
